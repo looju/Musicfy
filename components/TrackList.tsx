@@ -16,7 +16,7 @@ import CustomSearchBar from "./Searchbar";
 import { Track } from "react-native-track-player";
 
 export type TrackListProps = Partial<FlatListProps<Track>> & {
-  result: Track;
+  result: any[];
 };
 const android = Platform.OS === "android";
 

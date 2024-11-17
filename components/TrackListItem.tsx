@@ -10,10 +10,15 @@ import FastImage from "react-native-fast-image";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { Colors, fontSize } from "@/constants/Theme";
 import { defaultStyles } from "@/constants/Styles";
-import { Track } from "react-native-track-player";
 
 export type TrackListItemProps = {
-  track: Track;
+  track: {
+    title: string;
+    image?: string;
+    artist_name: string;
+    artist_id: string;
+    song_id: string;
+  };
 };
 
 const TrackListItem = ({ track }: TrackListItemProps) => {
