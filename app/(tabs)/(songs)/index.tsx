@@ -53,7 +53,8 @@ const SongsHome = () => {
       .then((response: any) => {
         const data = response.data.results.map((item: any) => {
           return {
-            title: searchQuery,
+            title:
+              searchQuery.charAt(0).toLocaleUpperCase() + searchQuery.slice(1),
             artist_name: item.title.split("-")[0],
             image: item.cover_image,
             song_id: item.id,

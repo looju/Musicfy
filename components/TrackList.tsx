@@ -13,9 +13,10 @@ import TrackListItem from "./TrackListItem";
 import { utilStyles } from "@/constants/Styles";
 import { Searchbar } from "react-native-paper";
 import CustomSearchBar from "./Searchbar";
+import { Track } from "react-native-track-player";
 
-export type TrackListProps = Partial<FlatListProps<unknown>> & {
-  result: any[];
+export type TrackListProps = Partial<FlatListProps<Track>> & {
+  result: Track;
 };
 const android = Platform.OS === "android";
 
