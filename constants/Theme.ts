@@ -22,7 +22,20 @@ export const Colors = {
   background: "#000",
   icon: "#fff",
   text: "#fff",
+  white: "#fff",
   textMuted: "#9ca3af",
   maximumTrackTintColor: "rgba(255,255,255,0.4)",
   minimumTrackTintColor: "rgba(255,255,255,0.6)",
+};
+
+export const fontSize = {
+  extraSmall: 12,
+  small: 16,
+  large: 24,
+  extraLarge: 28,
+};
+
+export const screenPadding = {
+  horizontal: 24,
+  vertical: 20,
 };
