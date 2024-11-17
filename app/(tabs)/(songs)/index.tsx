@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Animated,
   Platform,
   ScrollView,
@@ -17,7 +18,7 @@ import { defaultStyles } from "@/constants/Styles";
 import { BaseUrl } from "@/constants/Endpoint";
 import axios, { isCancel, AxiosError } from "axios";
 import TrackList from "@/components/TrackList";
-import { screenPadding } from "@/constants/Theme";
+import { Colors, screenPadding } from "@/constants/Theme";
 import { useNavigationsearchBar } from "@/hooks/useNavigationSearch";
 import CustomSearchBar from "@/components/Searchbar";
 
@@ -28,6 +29,7 @@ const SongsHome = () => {
   let scrollOffsetY = useRef(new Animated.Value(0)).current;
   const [searchQuery, setSearchQuery] = useState("");
   const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(false);
   const search = useNavigationsearchBar({
     searchBarOptions: {
       shouldShowHintSearchIcon: true,
@@ -36,7 +38,7 @@ const SongsHome = () => {
   });
 
   const queryServer = () => {
-    console.log("query");
+    setLoading(true);
     axios
       .get(
         `${BaseUrl}/database/search?q=${search ?? searchQuery}&track=${
@@ -62,6 +64,7 @@ const SongsHome = () => {
           };
         });
         setResult(data);
+        setLoading(false);
       })
       .catch(function (e) {
         console.log(e, "Error searching db");
@@ -84,23 +87,35 @@ const SongsHome = () => {
           onClear={() => setResult([])}
         />
       )}
-
-      <ScrollView
-        showsVerticalScrollIndicator={true}
-        contentInsetAdjustmentBehavior="automatic"
-        style={{ padding: screenPadding.horizontal }}
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
-          { useNativeDriver: false }
-        )}
-      >
-        <TrackList result={result} scrollEnabled={false} />
-      </ScrollView>
+      {loading ? (
+        <ActivityIndicator
+          size={"small"}
+          color={Colors.primary}
+          style={styles.loading}
+        />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={true}
+          contentInsetAdjustmentBehavior="automatic"
+          style={{ padding: screenPadding.horizontal }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+            { useNativeDriver: false }
+          )}
+        >
+          <TrackList result={result} scrollEnabled={false} />
+        </ScrollView>
+      )}
     </View>
   );
 };
 
 export default SongsHome;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loading: {
+    alignSelf: "center",
+    top: "30%",
+  },
+});
