@@ -10,21 +10,29 @@ import FastImage from "react-native-fast-image";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { Colors, fontSize } from "@/constants/Theme";
 import { defaultStyles } from "@/constants/Styles";
+import { useActiveTrack } from "react-native-track-player";
+import { Entypo } from "@expo/vector-icons";
 
-export type TrackListItemProps = {
-  track: {
-    title: string;
-    image?: string;
-    artist_name: string;
-    artist_id: string;
-    song_id: string;
-  };
+type ResultProps = {
+  title: string;
+  artist_name: string;
+  image: string;
+  song_id: number;
+  artist_id: number;
 };
 
-const TrackListItem = ({ track }: TrackListItemProps) => {
-  const isActiveTrack = false;
+export type TrackListItemProps = {
+  track: ResultProps;
+  onTrackSelect: (track: ResultProps) => void;
+};
+
+const TrackListItem = ({
+  track,
+  onTrackSelect: handleTrackSelect,
+}: TrackListItemProps) => {
+  const isActiveTrack = useActiveTrack()?.artist == track.artist_name;
   return (
-    <TouchableHighlight>
+    <TouchableHighlight onPress={() => handleTrackSelect}>
       <View style={styles.main}>
         <View>
           <Image
@@ -35,22 +43,29 @@ const TrackListItem = ({ track }: TrackListItemProps) => {
             ]}
           />
         </View>
-        <View style={styles.titleView}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={[
-              styles.title,
-              { color: isActiveTrack ? Colors.primary : Colors.text },
-            ]}
-          >
-            {track.title}
-          </Text>
-          {track.artist_name && (
-            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.artist}>
-              {track.artist_name}
+        <View>
+          <View style={styles.titleView}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={[
+                styles.title,
+                { color: isActiveTrack ? Colors.primary : Colors.text },
+              ]}
+            >
+              {track.title}
             </Text>
-          )}
+            {track.artist_name && (
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={styles.artist}
+              >
+                {track.artist_name}
+              </Text>
+            )}
+          </View>
+          <Entypo name="dots-three-horizontal" size={18} color={Colors.icon} />
         </View>
       </View>
     </TouchableHighlight>
@@ -87,5 +102,11 @@ const styles = StyleSheet.create({
     columnGap: 14,
     alignItems: "center",
     paddingRight: 20,
+  },
+  menuView: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

@@ -15,8 +15,16 @@ import { Searchbar } from "react-native-paper";
 import CustomSearchBar from "./Searchbar";
 import { Track } from "react-native-track-player";
 
-export type TrackListProps = Partial<FlatListProps<Track>> & {
-  result: any[];
+type ResultProps = {
+  title: string;
+  artist_name: string;
+  image: string;
+  song_id: number;
+  artist_id: number;
+};
+
+export type TrackListProps = Partial<FlatListProps<ResultProps>> & {
+  result: Array<ResultProps>;
 };
 const android = Platform.OS === "android";
 
@@ -58,14 +66,15 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
       />
     );
   };
-
-  console.log(result.length, "result2");
+  const handleTrackSelect = (track: ResultProps) => {};
 
   return (
     <>
       <FlatList
         data={result.length !== 0 ? result : tracks}
-        renderItem={({ item, index }) => <TrackListItem track={item} />}
+        renderItem={({ item, index }) => (
+          <TrackListItem track={item} onTrackSelect={handleTrackSelect} />
+        )}
         {...flatListProps}
         ItemSeparatorComponent={() => <ItemDivider />}
         contentContainerStyle={{ paddingTop: 10, paddingBottom: 120 }}

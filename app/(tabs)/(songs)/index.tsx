@@ -71,8 +71,6 @@ const SongsHome = () => {
       });
   };
 
-  console.log(result);
-
   return (
     <View style={defaultStyles.container}>
       {android && (

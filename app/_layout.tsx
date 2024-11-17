@@ -6,11 +6,13 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { useSetupTrackPlayer } from "@/hooks/useSetupTrackPlayer";
+import { useLogTrackPlayer } from "@/hooks/useLogTrackPlayer";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -23,7 +25,13 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      const handleHideScreen = useCallback(() => {
+        SplashScreen.hideAsync();
+      }, []);
+      useSetupTrackPlayer({
+        onLoad: handleHideScreen,
+      });
+      useLogTrackPlayer();
     }
   }, [loaded]);
 

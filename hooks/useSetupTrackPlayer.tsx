@@ -11,6 +11,7 @@ const setupPlayer = async () => {
   });
   await TrackPlayer.setVolume(0.5);
   await TrackPlayer.setRepeatMode(RepeatMode.Queue);
+  await TrackPlayer.setPlayWhenReady(true);
 };
 
 export const useSetupTrackPlayer = ({ onLoad }: onLoadType) => {
