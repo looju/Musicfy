@@ -1,30 +1,54 @@
 import { useEffect, useRef } from "react";
-import TrackPlayer, { RepeatMode } from "react-native-track-player";
-
-type onLoadType = {
-  onLoad?: () => void;
-};
+import TrackPlayer, {
+  AppKilledPlaybackBehavior,
+  Capability,
+  RatingType,
+  RepeatMode,
+} from "react-native-track-player";
 
 const setupPlayer = async () => {
   await TrackPlayer.setupPlayer({
     maxCacheSize: 1024 * 10,
   });
-  await TrackPlayer.setVolume(0.5);
+
+  await TrackPlayer.updateOptions({
+    ratingType: RatingType.Heart,
+    capabilities: [
+      Capability.Play,
+      Capability.Pause,
+      Capability.SkipToNext,
+      Capability.SkipToPrevious,
+      Capability.Stop,
+      Capability.SeekTo,
+      Capability.JumpForward,
+      Capability.JumpBackward,
+      Capability.PlayFromId,
+      Capability.Bookmark,
+      Capability.Like,
+      Capability.Dislike,
+    ],
+    forwardJumpInterval: 3000,
+    backwardJumpInterval: 3000,
+  });
+
+  await TrackPlayer.setVolume(0.3); // not too loud
   await TrackPlayer.setRepeatMode(RepeatMode.Queue);
-  await TrackPlayer.setPlayWhenReady(true);
 };
 
-export const useSetupTrackPlayer = ({ onLoad }: onLoadType) => {
+export const useSetupTrackPlayer = ({ onLoad }: { onLoad?: () => void }) => {
   const isInitialized = useRef(false);
+
   useEffect(() => {
+    if (isInitialized.current) return;
+
     setupPlayer()
       .then(() => {
         isInitialized.current = true;
         onLoad?.();
       })
-      .catch(() => {
+      .catch((error) => {
         isInitialized.current = false;
-        console.log("Error setting up player");
+        console.error(error);
       });
   }, [onLoad]);
 };

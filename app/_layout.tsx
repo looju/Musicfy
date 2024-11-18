@@ -18,22 +18,19 @@ import { useLogTrackPlayer } from "@/hooks/useLogTrackPlayer";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const handleTrackPlayerLoaded = useCallback(() => {
+    SplashScreen.hideAsync();
+  }, []);
+
+  useSetupTrackPlayer({
+    onLoad: handleTrackPlayerLoaded,
+  });
+
+  useLogTrackPlayer();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-
-  useEffect(() => {
-    if (loaded) {
-      const handleHideScreen = useCallback(() => {
-        SplashScreen.hideAsync();
-      }, []);
-      useSetupTrackPlayer({
-        onLoad: handleHideScreen,
-      });
-      useLogTrackPlayer();
-    }
-  }, [loaded]);
 
   if (!loaded) {
     return null;

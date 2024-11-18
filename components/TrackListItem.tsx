@@ -43,7 +43,7 @@ const TrackListItem = ({
             ]}
           />
         </View>
-        <View>
+        <View style={styles.menuView}>
           <View style={styles.titleView}>
             <Text
               numberOfLines={1}
