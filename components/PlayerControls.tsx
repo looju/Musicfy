@@ -37,7 +37,7 @@ export const SkipToNextButton = ({ iconSize = 30 }: PlayerButtonProps) => {
       activeOpacity={0.85}
       onPress={() => TrackPlayer.skipToNext()}
     >
-      <FontAwesome size={iconSize} color={Colors.text} name="step-forward" />
+      <FontAwesome size={iconSize} color={Colors.text} name="forward" />
     </TouchableOpacity>
   );
 };
@@ -48,7 +48,7 @@ export const SkipToPreviousButton = ({ iconSize = 30 }: PlayerButtonProps) => {
       activeOpacity={0.85}
       onPress={() => TrackPlayer.skipToPrevious()}
     >
-      <FontAwesome size={iconSize} color={Colors.text} name="step-backward" />
+      <FontAwesome size={iconSize} color={Colors.text} name="backward" />
     </TouchableOpacity>
   );
 };

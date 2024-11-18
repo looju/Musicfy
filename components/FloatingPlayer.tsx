@@ -1,23 +1,41 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 import React from "react";
-import { useActiveTrack } from "react-native-track-player";
+import { Track, useActiveTrack } from "react-native-track-player";
 import {
   UnknownArtistImageUri,
   UnknownTrackImageUri,
 } from "@/constants/Images";
 import { defaultStyles } from "@/constants/Styles";
+import { PlayPauseButton, SkipToNextButton } from "./PlayerControls";
+import { Colors } from "@/constants/Theme";
 
-const FloatingPlayer = () => {
+type FloatingPlayerProps = {
+  style: ViewStyle;
+};
+
+const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
   const activeTrack = useActiveTrack();
-  const displayTrack = activeTrack;
-  if (!activeTrack) {
+  const displayTrack: Track = activeTrack ?? {
+    title: "This is a track",
+    artist: "Unknown Artist",
+    artwork: UnknownArtistImageUri,
+  };
+  if (!displayTrack) {
     return null;
   }
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity style={[styles.main, style]} activeOpacity={0.9}>
       <>
         <Image
-          source={{ uri: displayTrack?.artist ?? UnknownTrackImageUri }}
+          source={{ uri: displayTrack?.artwork ?? UnknownTrackImageUri }}
           style={styles.artistImg}
         />
         <View style={styles.infoContainer}>
@@ -25,8 +43,8 @@ const FloatingPlayer = () => {
           <Text style={styles.artistText}>{displayTrack?.artist}</Text>
         </View>
         <View style={styles.controlsView}>
-          <PlayPauseButton iconSize={24} />
-          <SkipButton iconSize={22} />
+          <PlayPauseButton iconSize={18} />
+          <SkipToNextButton iconSize={17} />
         </View>
       </>
     </TouchableOpacity>
@@ -36,6 +54,14 @@ const FloatingPlayer = () => {
 export default FloatingPlayer;
 
 const styles = StyleSheet.create({
+  main: {
+    flexDirection: "row",
+    padding: 8,
+    alignItems: "center",
+    borderRadius: 12,
+    backgroundColor: Colors.softDark,
+    paddingVertical: 10,
+  },
   artistImg: {
     width: 40,
     height: 40,
@@ -49,9 +75,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   artistText: {
+    ...defaultStyles.text,
     marginTop: 5,
     fontSize: 13,
-    fontWeight: "500",
+    fontWeight: "400",
     textAlign: "center",
   },
   infoContainer: {
