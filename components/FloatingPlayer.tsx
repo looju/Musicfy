@@ -15,6 +15,7 @@ import {
 import { defaultStyles } from "@/constants/Styles";
 import { PlayPauseButton, SkipToNextButton } from "./PlayerControls";
 import { Colors } from "@/constants/Theme";
+import { ResultProps } from "./TrackList";
 
 type FloatingPlayerProps = {
   style: ViewStyle;
@@ -22,7 +23,7 @@ type FloatingPlayerProps = {
 
 const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
   const activeTrack = useActiveTrack();
-  const displayTrack: Track = activeTrack ?? {
+  const displayTrack: ResultProps = activeTrack ?? {
     title: "This is a track",
     artist: "Unknown Artist",
     artwork: UnknownArtistImageUri,

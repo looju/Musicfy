@@ -4,6 +4,8 @@ import {
   TouchableHighlight,
   View,
   Image,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { UnknownTrackImageUri } from "@/constants/Images";
@@ -11,29 +13,17 @@ import { Colors, fontSize } from "@/constants/Theme";
 import { defaultStyles } from "@/constants/Styles";
 import { useActiveTrack } from "react-native-track-player";
 import { Entypo } from "@expo/vector-icons";
-type ResultProps = {
-  url: string;
-  title: string;
-  artist: string;
-  album: string;
-  genre: string;
-  date: string; // RFC 3339
-  artwork: string; // Load artwork from the network
-  duration: number; // Duration in seconds
-};
+import { ResultProps } from "./TrackList";
 
 export type TrackListItemProps = {
   track: ResultProps;
-  onTrackSelect: (track: ResultProps) => void;
+  handleTrackSelect: () => void;
 };
 
-const TrackListItem = ({
-  track,
-  onTrackSelect: handleTrackSelect,
-}: TrackListItemProps) => {
+const TrackListItem = ({ track, handleTrackSelect }: TrackListItemProps) => {
   const isActiveTrack = useActiveTrack()?.artist == track.artist;
   return (
-    <TouchableHighlight onPress={() => handleTrackSelect}>
+    <TouchableOpacity onPress={() => handleTrackSelect()}>
       <View style={styles.main}>
         <View>
           <Image
@@ -69,7 +59,7 @@ const TrackListItem = ({
           <Entypo name="dots-three-horizontal" size={18} color={Colors.icon} />
         </View>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
