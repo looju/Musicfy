@@ -6,19 +6,20 @@ import {
   Image,
 } from "react-native";
 import React from "react";
-import FastImage from "react-native-fast-image";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { Colors, fontSize } from "@/constants/Theme";
 import { defaultStyles } from "@/constants/Styles";
 import { useActiveTrack } from "react-native-track-player";
 import { Entypo } from "@expo/vector-icons";
-
 type ResultProps = {
+  url: string;
   title: string;
-  artist_name: string;
-  image: string;
-  song_id: number;
-  artist_id: number;
+  artist: string;
+  album: string;
+  genre: string;
+  date: string; // RFC 3339
+  artwork: string; // Load artwork from the network
+  duration: number; // Duration in seconds
 };
 
 export type TrackListItemProps = {
@@ -30,13 +31,13 @@ const TrackListItem = ({
   track,
   onTrackSelect: handleTrackSelect,
 }: TrackListItemProps) => {
-  const isActiveTrack = useActiveTrack()?.artist == track.artist_name;
+  const isActiveTrack = useActiveTrack()?.artist == track.artist;
   return (
     <TouchableHighlight onPress={() => handleTrackSelect}>
       <View style={styles.main}>
         <View>
           <Image
-            source={{ uri: track.image ?? UnknownTrackImageUri }}
+            source={{ uri: track.artwork ?? UnknownTrackImageUri }}
             style={[
               styles.trackWorkImage,
               { opacity: isActiveTrack ? 0.6 : 1 },
@@ -55,13 +56,13 @@ const TrackListItem = ({
             >
               {track.title}
             </Text>
-            {track.artist_name && (
+            {track.artist && (
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.artist}
               >
-                {track.artist_name}
+                {track.artist}
               </Text>
             )}
           </View>

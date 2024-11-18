@@ -57,8 +57,8 @@ const SongsHome = () => {
           return {
             title:
               searchQuery.charAt(0).toLocaleUpperCase() + searchQuery.slice(1),
-            artist_name: item.title.split("-")[0],
-            image: item.cover_image,
+            artist: item.title.split("-")[0],
+            artwork: item.cover_image,
             song_id: item.id,
             artist_id: item.master_id,
           };

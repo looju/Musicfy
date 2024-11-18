@@ -16,11 +16,14 @@ import CustomSearchBar from "./Searchbar";
 import { Track } from "react-native-track-player";
 
 type ResultProps = {
+  url: string;
   title: string;
-  artist_name: string;
-  image: string;
-  song_id: number;
-  artist_id: number;
+  artist: string;
+  album: string;
+  genre: string;
+  date: string; // RFC 3339
+  artwork: string; // Load artwork from the network
+  duration: number; // Duration in seconds
 };
 
 export type TrackListProps = Partial<FlatListProps<ResultProps>> & {
@@ -46,8 +49,8 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
         const data = response.data.wants.map((item: any) => {
           return {
             title: item.basic_information.title,
-            artist_name: item.basic_information.artists[0].name,
-            image: item.basic_information.cover_image,
+            artist: item.basic_information.artists[0].name,
+            artwork: item.basic_information.cover_image,
             song_id: item.basic_information.id,
             artist_id: item.basic_information.artists[0].id,
           };
