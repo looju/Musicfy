@@ -18,6 +18,7 @@ import { PlayPauseButton, SkipToNextButton } from "./PlayerControls";
 import { Colors } from "@/constants/Theme";
 import { ResultProps } from "./TrackList";
 import useLoading from "@/Store/useLoading";
+import { useLastActiveTrack } from "@/hooks/useLastActiveTrack";
 
 type FloatingPlayerProps = {
   style: ViewStyle;
@@ -26,11 +27,8 @@ type FloatingPlayerProps = {
 const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
   const loading = useLoading((state) => state.loading);
   const activeTrack = useActiveTrack();
-  const displayTrack: ResultProps = activeTrack ?? {
-    title: "Unknown Track",
-    artist: "Unknown Artist",
-    artwork: UnknownArtistImageUri,
-  };
+  const lastActiveTrack = useLastActiveTrack();
+  const displayTrack: ResultProps = activeTrack ?? lastActiveTrack;
   if (!displayTrack) {
     return null;
   }

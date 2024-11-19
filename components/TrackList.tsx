@@ -15,6 +15,7 @@ import { Searchbar } from "react-native-paper";
 import CustomSearchBar from "./Searchbar";
 import TrackPlayer, { Track } from "react-native-track-player";
 import useLoading from "@/Store/useLoading";
+import { getRandomUri, randomUri, uris } from "@/hooks/useRandomUri";
 
 export type ResultProps = {
   url: string;
@@ -39,6 +40,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
   const secret = process.env.EXPO_PUBLIC_DISCOGS_SECRET;
   const setLoading = useLoading((state) => state.setLoading);
   const [tracks, setTracks] = useState<ResultProps>();
+  const [uri, setUri] = useState("");
   const [currentlyPlayingTrack, setCurrentlyPlayingTrack] =
     useState<ResultProps>();
   const [artistId, setArtistId] = useState("");
@@ -78,6 +80,14 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
     );
   };
 
+  const EmptyComponent = () => {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>No songs found</Text>
+      </View>
+    );
+  };
+
   const handleTrackSelect = async (track: ResultProps) => {
     setLoading(true);
     await axios
@@ -93,7 +103,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
           title: response.data.title,
           artist: response.data.artists[0].name,
           artwork: response.data.thumb,
-          url: "https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw",
+          url: getRandomUri(uris).url,
         };
         setLoading(false);
         await TrackPlayer.load(data);
@@ -118,6 +128,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
         ItemSeparatorComponent={() => <ItemDivider />}
         contentContainerStyle={{ paddingTop: 10, paddingBottom: 120 }}
         ListFooterComponent={ItemDivider}
+        ListEmptyComponent={EmptyComponent}
         keyExtractor={(item) => item.song_id.toString()}
       />
     </>

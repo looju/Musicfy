@@ -1,4 +1,4 @@
-const uris = [
+export const uris = [
   {
     "url": "https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw",
   },
@@ -49,7 +49,7 @@ const uris = [
   },
 ];
 
-function getRandomUri(arr: Array<any>) {
+export function getRandomUri(arr: Array<any>) {
   // get random index value
   const randomIndex = Math.floor(Math.random() * arr.length);
 
@@ -59,6 +59,6 @@ function getRandomUri(arr: Array<any>) {
   return item;
 }
 
-const randomUri = getRandomUri(uris);
+export const randomUri = getRandomUri(uris);
 
 //to complement for the lack of mp3 files being returuned from discogs api

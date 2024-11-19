@@ -8,11 +8,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
+import { Image as ExpoImage } from "expo-image";
 import { UnknownTrackImageUri } from "@/constants/Images";
+import LoaderKit from "react-native-loader-kit";
 import { Colors, fontSize } from "@/constants/Theme";
 import { defaultStyles } from "@/constants/Styles";
-import { useActiveTrack } from "react-native-track-player";
-import { Entypo } from "@expo/vector-icons";
+import { useActiveTrack, useIsPlaying } from "react-native-track-player";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { ResultProps } from "./TrackList";
 
 export type TrackListItemProps = {
@@ -22,6 +24,7 @@ export type TrackListItemProps = {
 
 const TrackListItem = ({ track, handleTrackSelect }: TrackListItemProps) => {
   const isActiveTrack = useActiveTrack()?.artist == track.artist;
+  const { playing } = useIsPlaying();
   return (
     <TouchableOpacity onPress={() => handleTrackSelect()}>
       <View style={styles.main}>
@@ -33,6 +36,20 @@ const TrackListItem = ({ track, handleTrackSelect }: TrackListItemProps) => {
               { opacity: isActiveTrack ? 0.6 : 1 },
             ]}
           />
+          {isActiveTrack &&
+            (playing ? (
+              <ExpoImage
+                style={styles.playingIndicator}
+                source={require("@/assets/play.gif")}
+              />
+            ) : (
+              <Ionicons
+                name="play"
+                size={24}
+                color={Colors.icon}
+                style={styles.nonPlayingIndicator}
+              />
+            ))}
         </View>
         <View style={styles.menuView}>
           <View style={styles.titleView}>
@@ -99,5 +116,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  playingIndicator: {
+    height: 16,
+    width: 16,
+    left: 16,
+    top: 18,
+    position: "absolute",
+    zIndex: 1000,
+  },
+  nonPlayingIndicator: {
+    left: 16,
+    top: 18,
+    position: "absolute",
+    zIndex: 1000,
   },
 });
