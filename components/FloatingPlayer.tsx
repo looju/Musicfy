@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   StyleSheet,
   Text,
@@ -16,15 +17,17 @@ import { defaultStyles } from "@/constants/Styles";
 import { PlayPauseButton, SkipToNextButton } from "./PlayerControls";
 import { Colors } from "@/constants/Theme";
 import { ResultProps } from "./TrackList";
+import useLoading from "@/Store/useLoading";
 
 type FloatingPlayerProps = {
   style: ViewStyle;
 };
 
 const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
+  const loading = useLoading((state) => state.loading);
   const activeTrack = useActiveTrack();
   const displayTrack: ResultProps = activeTrack ?? {
-    title: "This is a track",
+    title: "Unknown Track",
     artist: "Unknown Artist",
     artwork: UnknownArtistImageUri,
   };
@@ -35,18 +38,28 @@ const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
   return (
     <TouchableOpacity style={[styles.main, style]} activeOpacity={0.9}>
       <>
-        <Image
-          source={{ uri: displayTrack?.artwork ?? UnknownTrackImageUri }}
-          style={styles.artistImg}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.titleText}>{displayTrack?.title}</Text>
-          <Text style={styles.artistText}>{displayTrack?.artist}</Text>
-        </View>
-        <View style={styles.controlsView}>
-          <PlayPauseButton iconSize={18} />
-          <SkipToNextButton iconSize={17} />
-        </View>
+        {loading ? (
+          <ActivityIndicator
+            style={styles.ind}
+            color={Colors.primary}
+            size={"small"}
+          />
+        ) : (
+          <>
+            <Image
+              source={{ uri: displayTrack?.artwork ?? UnknownTrackImageUri }}
+              style={styles.artistImg}
+            />
+            <View style={styles.infoContainer}>
+              <Text style={styles.titleText}>{displayTrack?.title}</Text>
+              <Text style={styles.artistText}>{displayTrack?.artist}</Text>
+            </View>
+            <View style={styles.controlsView}>
+              <PlayPauseButton iconSize={18} />
+              <SkipToNextButton iconSize={17} />
+            </View>
+          </>
+        )}
       </>
     </TouchableOpacity>
   );
@@ -92,5 +105,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 10,
     columnGap: 20,
+  },
+  ind: {
+    alignSelf: "center",
+    width: "100%",
   },
 });

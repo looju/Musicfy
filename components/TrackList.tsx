@@ -14,6 +14,7 @@ import { utilStyles } from "@/constants/Styles";
 import { Searchbar } from "react-native-paper";
 import CustomSearchBar from "./Searchbar";
 import TrackPlayer, { Track } from "react-native-track-player";
+import useLoading from "@/Store/useLoading";
 
 export type ResultProps = {
   url: string;
@@ -36,6 +37,7 @@ const android = Platform.OS === "android";
 const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
   const key = process.env.EXPO_PUBLIC_DISCOGS_KEY;
   const secret = process.env.EXPO_PUBLIC_DISCOGS_SECRET;
+  const setLoading = useLoading((state) => state.setLoading);
   const [tracks, setTracks] = useState<ResultProps>();
   const [currentlyPlayingTrack, setCurrentlyPlayingTrack] =
     useState<ResultProps>();
@@ -77,6 +79,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
   };
 
   const handleTrackSelect = async (track: ResultProps) => {
+    setLoading(true);
     await axios
       .get(`${BaseUrl}/releases/${track.song_id}?key=${key}&secret=${secret}`, {
         headers: {
@@ -86,14 +89,13 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
         },
       })
       .then(async (response: any) => {
-        const data = response.data.map((item: any) => {
-          return {
-            title: item.title,
-            artist: item.artists[0].name,
-            artwork: item.thumb,
-            url: item.uri,
-          };
-        });
+        const data = {
+          title: response.data.title,
+          artist: response.data.artists[0].name,
+          artwork: response.data.thumb,
+          url: "https://audio.jukehost.co.uk/vTRYaTEbpaYRCxiWGgL2S91mnOuMKfLw",
+        };
+        setLoading(false);
         await TrackPlayer.load(data);
         await TrackPlayer.play();
       })
