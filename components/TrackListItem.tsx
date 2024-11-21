@@ -38,17 +38,21 @@ const TrackListItem = ({ track, handleTrackSelect }: TrackListItemProps) => {
           />
           {isActiveTrack &&
             (playing ? (
-              <ExpoImage
-                style={styles.playingIndicator}
-                source={require("@/assets/play.gif")}
-              />
+              <View style={[styles.playingIndicatorView]}>
+                <ExpoImage
+                  style={styles.playingIndicator}
+                  source={require("@/assets/play.gif")}
+                />
+              </View>
             ) : (
-              <Ionicons
-                name="play"
-                size={24}
-                color={Colors.icon}
-                style={styles.nonPlayingIndicator}
-              />
+              <View style={[styles.playingIndicatorView]}>
+                <Ionicons
+                  name="play"
+                  size={20}
+                  color={Colors.icon}
+                  style={styles.nonPlayingIndicator}
+                />
+              </View>
             ))}
         </View>
         <View style={styles.menuView}>
@@ -118,13 +122,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   playingIndicator: {
-    height: 32,
-    width: 32,
-    left: 10,
-    top: 14,
+    height: 25,
+    width: 25,
+  },
+  playingIndicatorView: {
+    height: 50,
+    width: 50,
+    borderRadius: 8,
+    backgroundColor: Colors.halfDark,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
     position: "absolute",
     zIndex: 1000,
   },
+
   nonPlayingIndicator: {
     left: 16,
     top: 18,

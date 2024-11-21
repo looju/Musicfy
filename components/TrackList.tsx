@@ -16,6 +16,7 @@ import CustomSearchBar from "./Searchbar";
 import TrackPlayer, { Track } from "react-native-track-player";
 import useLoading from "@/Store/useLoading";
 import { getRandomUri, randomUri, uris } from "@/hooks/useRandomUri";
+import { useDataStore } from "@/Store/useData";
 
 export type ResultProps = {
   url: string;
@@ -39,6 +40,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
   const key = process.env.EXPO_PUBLIC_DISCOGS_KEY;
   const secret = process.env.EXPO_PUBLIC_DISCOGS_SECRET;
   const setLoading = useLoading((state) => state.setLoading);
+  const storeInfoData = useDataStore((state) => state.storeInfoData);
   const [tracks, setTracks] = useState<ResultProps>();
   const [uri, setUri] = useState("");
   const [currentlyPlayingTrack, setCurrentlyPlayingTrack] =
@@ -106,6 +108,7 @@ const TrackList = ({ result, ...flatListProps }: TrackListProps) => {
           url: getRandomUri(uris).url,
         };
         setLoading(false);
+        storeInfoData(response.data);
         await TrackPlayer.load(data);
         await TrackPlayer.play();
       })

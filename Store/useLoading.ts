@@ -1,6 +1,11 @@
 import { create } from "zustand";
 
-const useLoading = create((set) => ({
+interface LoadingState {
+  loading: boolean;
+  setLoading: (value: boolean) => void;
+}
+
+const useLoading = create<LoadingState>((set) => ({
   loading: false,
   setLoading: (value: boolean) => set({ loading: value }),
 }));

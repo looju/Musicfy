@@ -15,9 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
+        "UIBackgroundModes": ["audio"]
       },
       "bundleIdentifier": "com.loju.Musicfy"
     },
@@ -34,7 +32,13 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.133419632805-eb5pf2k23hbqtq2acbu9hqm4a5pl571p"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

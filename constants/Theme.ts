@@ -27,6 +27,7 @@ export const Colors = {
   maximumTrackTintColor: "rgba(255,255,255,0.4)",
   minimumTrackTintColor: "rgba(255,255,255,0.6)",
   softDark: "#252525",
+  halfDark: "rgba(0,0,0,0.5)",
 };
 
 export const fontSize = {

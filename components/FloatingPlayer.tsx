@@ -19,12 +19,15 @@ import { Colors } from "@/constants/Theme";
 import { ResultProps } from "./TrackList";
 import useLoading from "@/Store/useLoading";
 import { useLastActiveTrack } from "@/hooks/useLastActiveTrack";
+import MovingText from "./MovingText";
+import { useRouter } from "expo-router";
 
 type FloatingPlayerProps = {
   style: ViewStyle;
 };
 
 const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
+  const router = useRouter();
   const loading = useLoading((state) => state.loading);
   const activeTrack = useActiveTrack();
   const lastActiveTrack = useLastActiveTrack();
@@ -34,7 +37,11 @@ const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
   }
 
   return (
-    <TouchableOpacity style={[styles.main, style]} activeOpacity={0.9}>
+    <TouchableOpacity
+      style={[styles.main, style]}
+      activeOpacity={0.9}
+      onPress={() => router.navigate("/Player")}
+    >
       <>
         {loading ? (
           <ActivityIndicator
@@ -49,7 +56,12 @@ const FloatingPlayer = ({ style }: FloatingPlayerProps) => {
               style={styles.artistImg}
             />
             <View style={styles.infoContainer}>
-              <Text style={styles.titleText}>{displayTrack?.title}</Text>
+              <MovingText
+                style={styles.titleText}
+                text={displayTrack?.title}
+                animationThreshold={25}
+              />
+
               <Text style={styles.artistText}>{displayTrack?.artist}</Text>
             </View>
             <View style={styles.controlsView}>

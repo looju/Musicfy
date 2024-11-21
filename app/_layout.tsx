@@ -41,6 +41,15 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="Player"
+            options={{
+              headerShown: false,
+              gestureDirection: "horizontal",
+              gestureEnabled: true,
+              animationDuration: 400,
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar
