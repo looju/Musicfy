@@ -1,10 +1,17 @@
 import MovingText from "@/components/MovingText";
+import { PlayerControls } from "@/components/PlayerControls";
 import { UnknownTrackImageUri } from "@/constants/Images";
-import { defaultStyles } from "@/constants/Styles";
+import { defaultStyles, utilStyles } from "@/constants/Styles";
 import { Colors, screenPadding } from "@/constants/Theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { Image } from "expo-image";
-import { View, StyleSheet, ActivityIndicator, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Platform,
+  Text,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveTrack } from "react-native-track-player";
 
@@ -65,7 +72,22 @@ export default function Player() {
                   onPress={toggleFavourites}
                 />
               </View>
+              {activeTrack.artist && (
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={[styles.trackArtist, { marginTop: 6 }]}
+                >
+                  {activeTrack.artist}
+                </Text>
+              )}
             </View>
+            <PlayerProgressBar style={{ marginTop: 30 }} />
+            <PlayerControls style={{ marginTop: 16 }} />
+          </View>
+          <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
+          <View style={utilStyles.centeredRow}>
+            <PlayerRepeatToggle size={30} style={{marginBottom:6}}
           </View>
         </View>
       </View>
@@ -120,6 +142,13 @@ const styles = StyleSheet.create({
   },
   infoView: {
     flex: 1,
+  },
+  trackArtist: {
+    ...defaultStyles.text,
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 4,
   },
   trackTitle: {
     ...defaultStyles.text,

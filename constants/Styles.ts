@@ -18,4 +18,9 @@ export const utilStyles = StyleSheet.create({
     borderWidth: 0.2,
     opacity: 0.1,
   },
+  centeredRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

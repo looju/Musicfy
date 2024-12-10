@@ -12,6 +12,27 @@ type PlayerButtonProps = {
   style?: ViewStyle;
 };
 
+export const PlayerControls = ({ style }: PlayerControlsProps) => {
+  return (
+    <View
+      style={[
+        style,
+        {
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        },
+      ]}
+    >
+      <View style={{ width: "100%" }}>
+        <SkipToNextButton iconSize={24} />
+        <PlayPauseButton iconSize={27} />
+        <SkipToPreviousButton iconSize={24} />
+      </View>
+    </View>
+  );
+};
+
 export const PlayPauseButton = ({ iconSize, style }: PlayerButtonProps) => {
   const { playing } = useIsPlaying();
   return (

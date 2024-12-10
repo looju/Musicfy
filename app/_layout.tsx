@@ -13,6 +13,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useSetupTrackPlayer } from "@/hooks/useSetupTrackPlayer";
 import { useLogTrackPlayer } from "@/hooks/useLogTrackPlayer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,24 +40,26 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="Player"
-            options={{
-              headerShown: false,
-              gestureDirection: "horizontal",
-              gestureEnabled: true,
-              animationDuration: 400,
-            }}
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="Player"
+              options={{
+                headerShown: false,
+                gestureDirection: "horizontal",
+                gestureEnabled: true,
+                animationDuration: 400,
+              }}
+            />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar
+            style="auto"
+            animated={true}
+            networkActivityIndicatorVisible
           />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar
-          style="auto"
-          animated={true}
-          networkActivityIndicatorVisible
-        />
+        </GestureHandlerRootView>
       </ThemeProvider>
     </SafeAreaProvider>
   );
