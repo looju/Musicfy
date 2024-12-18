@@ -14,7 +14,11 @@ const PlayerVolumeBar = ({ style }: ViewProps) => {
   const min = useSharedValue(0);
   const max = useSharedValue(1);
   const isSliding = useSharedValue(false);
+  const {} = useTrackPlayerVolume();
 
+  const applyVolume = async (number: number) => {
+    await TrackPlayer.setVolume(number);
+  };
   return (
     <View style={style}>
       <View style={styles.row}>
@@ -41,9 +45,9 @@ const PlayerVolumeBar = ({ style }: ViewProps) => {
           onSlidingComplete={async (value) => {
             if (!isSliding.value) return;
             isSliding.value = false;
-            await TrackPlayer.seekTo(value * duration);
+            applyVolume(value);
           }}
-          onValueChange={(number) => seekTrack(number)}
+          onValueChange={(number) => applyVolume(number)}
           renderBubble={() => null}
         />
         <FontAwesome name="volume-down" size={14} color="white" />
