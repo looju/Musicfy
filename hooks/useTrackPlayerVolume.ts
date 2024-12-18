@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import TrackPlayer from "react-native-track-player";
 
-export const useTrackPlayerVolume = (newVolume: number) => {
+export const useTrackPlayerVolume = () => {
   const [volume, setVolume] = useState<undefined | number>(undefined);
 
   const getVolume = useCallback(async () => {
@@ -9,7 +9,7 @@ export const useTrackPlayerVolume = (newVolume: number) => {
     setVolume(currentVolume);
   }, []);
 
-  const handleVolumeChange = useCallback(async () => {
+  const handleVolumeChange = useCallback(async (newVolume: number) => {
     if (newVolume < 0 || newVolume > 1) return;
     await TrackPlayer.setVolume(newVolume);
     setVolume(newVolume);

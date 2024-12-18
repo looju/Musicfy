@@ -1,5 +1,7 @@
 import MovingText from "@/components/MovingText";
 import { PlayerControls } from "@/components/PlayerControls";
+import PlayerProgressBar from "@/components/PlayerProgressBar";
+import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { defaultStyles, utilStyles } from "@/constants/Styles";
 import { Colors, screenPadding } from "@/constants/Theme";

@@ -8,17 +8,16 @@ import { defaultStyles, utilStyles } from "@/constants/Styles";
 import * as Haptics from "expo-haptics";
 import { fontSize } from "@/constants/Theme";
 import TrackPlayer from "react-native-track-player";
+import { useTrackPlayerVolume } from "@/hooks/useTrackPlayerVolume";
 
 const PlayerVolumeBar = ({ style }: ViewProps) => {
   const progress = useSharedValue(0);
   const min = useSharedValue(0);
   const max = useSharedValue(1);
   const isSliding = useSharedValue(false);
-  const {} = useTrackPlayerVolume();
+  const { volume, handleVolumeChange } = useTrackPlayerVolume();
 
-  const applyVolume = async (number: number) => {
-    await TrackPlayer.setVolume(number);
-  };
+  progress.value = volume ?? 0;
   return (
     <View style={style}>
       <View style={styles.row}>
@@ -45,9 +44,9 @@ const PlayerVolumeBar = ({ style }: ViewProps) => {
           onSlidingComplete={async (value) => {
             if (!isSliding.value) return;
             isSliding.value = false;
-            applyVolume(value);
+            handleVolumeChange(value);
           }}
-          onValueChange={(number) => applyVolume(number)}
+          onValueChange={(number) => handleVolumeChange(number)}
           renderBubble={() => null}
         />
         <FontAwesome name="volume-down" size={14} color="white" />
