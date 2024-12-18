@@ -25,4 +25,5 @@ export const Colors = {
   textMuted: "#9ca3af",
   maximumTrackTintColor: "rgba(255,255,255,0.4)",
   minimumTrackTintColor: "rgba(255,255,255,0.6)",
+  white: "#fff",
 };
