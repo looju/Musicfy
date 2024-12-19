@@ -34,6 +34,7 @@ export const PlayerRepeatToggle = ({ iconProps }: IconProps) => {
       name={icon}
       onPress={toggleRepeat}
       color={Colors.icon}
+      size={22}
       {...iconProps}
     />
   );

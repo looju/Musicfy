@@ -73,6 +73,7 @@ export default PlayerProgressBar;
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+    flexDirection: "column",
   },
   timeElapsed: {
     ...defaultStyles.text,
@@ -95,5 +96,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "baseline",
     marginTop: 20,
+    width: "100%",
   },
 });

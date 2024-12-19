@@ -21,7 +21,7 @@ const PlayerVolumeBar = ({ style }: ViewProps) => {
   return (
     <View style={style}>
       <View style={styles.row}>
-        <FontAwesome name="volume-down" size={14} color="white" />
+        <FontAwesome name="volume-down" size={14} color="red" />
         <Slider
           style={styles.slider}
           progress={progress}
@@ -41,11 +41,6 @@ const PlayerVolumeBar = ({ style }: ViewProps) => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           }}
           onSlidingStart={() => (isSliding.value = true)}
-          onSlidingComplete={async (value) => {
-            if (!isSliding.value) return;
-            isSliding.value = false;
-            handleVolumeChange(value);
-          }}
           onValueChange={(number) => handleVolumeChange(number)}
           renderBubble={() => null}
         />
@@ -62,6 +57,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "red",
+    width: "100%",
   },
   main: {
     flex: 1,
@@ -88,4 +85,5 @@ const styles = StyleSheet.create({
     alignItems: "baseline",
     marginTop: 20,
   },
+  slider: {},
 });

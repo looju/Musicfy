@@ -1,6 +1,7 @@
 import MovingText from "@/components/MovingText";
 import { PlayerControls } from "@/components/PlayerControls";
 import PlayerProgressBar from "@/components/PlayerProgressBar";
+import { PlayerRepeatToggle } from "@/components/PlayerRepeatToggle";
 import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { defaultStyles, utilStyles } from "@/constants/Styles";
@@ -89,7 +90,7 @@ export default function Player() {
           </View>
           <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
           <View style={utilStyles.centeredRow}>
-            <PlayerRepeatToggle size={30} style={{marginBottom:6}}
+            <PlayerRepeatToggle size={30} style={{ marginBottom: 6 }} />
           </View>
         </View>
       </View>

@@ -58,16 +58,22 @@ export const PlayerControls = ({ style }: PlayerControlsProps) => {
       style={[
         style,
         {
-          flexDirection: "row",
-          justifyContent: "space-between",
           alignItems: "center",
+          top: 30,
         },
       ]}
     >
-      <View style={{ width: "100%" }}>
-        <SkipToNextButton iconSize={24} />
-        <PlayPauseButton iconSize={27} />
+      <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
         <SkipToPreviousButton iconSize={24} />
+        <PlayPauseButton iconSize={27} />
+        <SkipToNextButton iconSize={24} />
       </View>
     </View>
   );
