@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/Colors";
+import { useTrackPlayerRepeatMode } from "@/hooks/useTrackPlayerRepeatMode";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ComponentProps, useState } from "react";
 import { RepeatMode } from "react-native-track-player";
@@ -13,12 +14,13 @@ const repeatOrder = [
 type IconName = ComponentProps<typeof MaterialCommunityIcons>["name"];
 type IconProps = Omit<ComponentProps<typeof MaterialCommunityIcons>, "name">;
 export const PlayerRepeatToggle = ({ iconProps }: IconProps) => {
-  const [repeatMode, setRepeatMode] = useState(repeatOrder[0]);
+  const { repeatMode, changeRepeatMode } = useTrackPlayerRepeatMode();
 
   const toggleRepeat = () => {
-    const nextIndex =
-      (repeatOrder.indexOf(repeatMode) + 1) % repeatOrder.length;
-    setRepeatMode(repeatOrder[nextIndex]);
+    if (repeatMode == null) return;
+    const currentIndex = repeatOrder.indexOf(repeatMode);
+    const nextIndex = (currentIndex + 1) % repeatOrder.length;
+    changeRepeatMode(repeatOrder[nextIndex]);
   };
 
   const icon = match(repeatMode)
@@ -26,7 +28,7 @@ export const PlayerRepeatToggle = ({ iconProps }: IconProps) => {
     .with(RepeatMode.Off, () => "repeat-off")
     .with(RepeatMode.Queue, () => "repeat")
     .with(RepeatMode.Track, () => "repeat-once")
-    .otherwise("repeat-off");
+    .otherwise(() => "repeat-off");
   return (
     <MaterialCommunityIcons
       name={icon}
@@ -35,5 +37,4 @@ export const PlayerRepeatToggle = ({ iconProps }: IconProps) => {
       {...iconProps}
     />
   );
-  return { repeatMode, toggleRepeat };
 };
