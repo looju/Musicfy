@@ -6,15 +6,17 @@ import {
   IOSImageColors,
 } from "react-native-image-colors/build/types";
 
-export const usePlayerBackground = (url: string) => {
+export const usePlayerBackground = (url: string | undefined) => {
   const [imageColors, setImageColors] = useState<AndroidImageColors>();
   useEffect(() => {
-    getColors(url, {
-      fallback: Colors.background,
-      cache: true,
-      key: url,
-    }).then((colors) => setImageColors(colors as AndroidImageColors));
+    url !== undefined
+      ? getColors(url, {
+          fallback: Colors.background,
+          cache: true,
+          key: url,
+        }).then((colors) => setImageColors(colors as AndroidImageColors))
+      : null;
   }, [url]);
 
-  return imageColors;
+  return { imageColors };
 };

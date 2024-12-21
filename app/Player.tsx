@@ -6,8 +6,10 @@ import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import { UnknownTrackImageUri } from "@/constants/Images";
 import { defaultStyles, utilStyles } from "@/constants/Styles";
 import { Colors, screenPadding } from "@/constants/Theme";
+import { usePlayerBackground } from "@/hooks/usePlayerBackground";
 import { FontAwesome } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   View,
   StyleSheet,
@@ -22,6 +24,9 @@ const android = Platform.OS == "android";
 export default function Player() {
   const activeTrack = useActiveTrack();
   const { top, bottom } = useSafeAreaInsets();
+  const { imageColors } = usePlayerBackground(
+    activeTrack?.artwork ?? UnknownTrackImageUri
+  );
   const isFavourite = false;
 
   const toggleFavourites = () => {};
@@ -33,68 +38,70 @@ export default function Player() {
     );
   }
   return (
-    <View style={styles.main}>
-      <View
-        style={[
-          styles.innerMain,
-          { marginTop: android ? top + 30 : top + 70, marginBottom: bottom },
-        ]}
-      >
-        <View style={styles.imgView}>
-          <Image
-            source={{ uri: activeTrack.artwork ?? UnknownTrackImageUri }}
-            enableLiveTextInteraction
-            priority={"high"}
-            contentFit="cover"
-            contentPosition={"center"}
-            style={styles.img}
-          />
-        </View>
-        <View style={styles.infoView}>
-          <View style={{ marginTop: "auto" }}>
-            <View style={{ height: 60 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View style={styles.titleView}>
-                  <MovingText
-                    text={activeTrack.title ?? ""}
-                    animationThreshold={30}
-                    style={styles.trackTitle}
+    <LinearGradient>
+      <View style={styles.main}>
+        <View
+          style={[
+            styles.innerMain,
+            { marginTop: android ? top + 30 : top + 70, marginBottom: bottom },
+          ]}
+        >
+          <View style={styles.imgView}>
+            <Image
+              source={{ uri: activeTrack.artwork ?? UnknownTrackImageUri }}
+              enableLiveTextInteraction
+              priority={"high"}
+              contentFit="cover"
+              contentPosition={"center"}
+              style={styles.img}
+            />
+          </View>
+          <View style={styles.infoView}>
+            <View style={{ marginTop: "auto" }}>
+              <View style={{ height: 60 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={styles.titleView}>
+                    <MovingText
+                      text={activeTrack.title ?? ""}
+                      animationThreshold={30}
+                      style={styles.trackTitle}
+                    />
+                  </View>
+                  <FontAwesome
+                    name={isFavourite ? "heart" : "heart-o"}
+                    size={20}
+                    color={isFavourite ? Colors.primary : Colors.icon}
+                    style={{ marginHorizontal: 14 }}
+                    onPress={toggleFavourites}
                   />
                 </View>
-                <FontAwesome
-                  name={isFavourite ? "heart" : "heart-o"}
-                  size={20}
-                  color={isFavourite ? Colors.primary : Colors.icon}
-                  style={{ marginHorizontal: 14 }}
-                  onPress={toggleFavourites}
-                />
+                {activeTrack.artist && (
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={[styles.trackArtist, { marginTop: 6 }]}
+                  >
+                    {activeTrack.artist}
+                  </Text>
+                )}
               </View>
-              {activeTrack.artist && (
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                  style={[styles.trackArtist, { marginTop: 6 }]}
-                >
-                  {activeTrack.artist}
-                </Text>
-              )}
+              <PlayerProgressBar style={{ marginTop: 30 }} />
+              <PlayerControls style={{ marginTop: 16 }} />
             </View>
-            <PlayerProgressBar style={{ marginTop: 30 }} />
-            <PlayerControls style={{ marginTop: 16 }} />
-          </View>
-          <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
-          <View style={utilStyles.centeredRow}>
-            <PlayerRepeatToggle size={30} style={{ marginBottom: 6 }} />
+            <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
+            <View style={utilStyles.centeredRow}>
+              <PlayerRepeatToggle size={30} style={{ marginBottom: 6 }} />
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
